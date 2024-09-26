@@ -81,7 +81,7 @@ export async function convert(fileName) {
 
   const data = [
     {
-      sheet: "May Spend",
+      sheet: "Monthly Spend",
       columns: [
         { label: "Spender", value: "spender" },
         { label: "Post Date", value: "postDate" },
@@ -95,7 +95,7 @@ export async function convert(fileName) {
   ];
 
   const settings = {
-    fileName,
+    fileName: "Elan_Statement_Summary",
     writeMode: "writeFile",
     writeOptions: {},
   };
