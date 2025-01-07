@@ -1,14 +1,12 @@
 import { app, BrowserWindow, ipcMain } from "electron";
-import { convert } from "./converter/convert.mjs";
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { convert } from "./converter/convert.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-console.log(__dirname);
-console.log(__filename);
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -36,18 +34,18 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });
 
-ipcMain.on("convert", (event, message) => {
+ipcMain.on("convert", async (event, message) => {
   const fileToConvert = fs
-    .readdirSync("../../Downloads")
+    .readdirSync("../Downloads")
     .find((file) => file === message);
   if (fileToConvert) {
-    console.log(fs.readFileSync(`../../Downloads/${fileToConvert}`));
     try {
-      convert(`../../Downloads/${fileToConvert}`);
+      await convert(`../Downloads/${fileToConvert}`);
       event.sender.send("converted");
     } catch (error) {
-      console.log("ERROR: ", error);
       event.sender.send("error", error);
     }
+  } else {
+    event.sender.send("error", "File not found");
   }
 });
