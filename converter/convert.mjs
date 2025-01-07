@@ -1,10 +1,16 @@
-import { readPdfText } from "pdf-text-reader";
 import xlsx from "json-as-xlsx";
+import { readPdfText } from "pdf-text-reader";
 
 export async function convert(fileName) {
-  const pdfText = await readPdfText({
-    url: fileName,
-  });
+  let pdfText = "";
+  try {
+    pdfText = await readPdfText({
+      url: fileName,
+    });
+  } catch (error) {
+    console.log("error when attempting to convert pdf: ", error);
+    throw error;
+  }
 
   const segments = pdfText.split("\n").filter((s) => s && !/^[01]*$/i.test(s));
 
