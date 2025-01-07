@@ -11,6 +11,10 @@
   </head>
   <body>
     <h1>PDF To Excel</h1>
+    <div id="loader">
+      <label for="file">In progress</label>
+      <progress id="file" max="100" value=""></progress>
+    </div>
     <input id="inputFile" type="file" />
     <button id="btnConvert">Convert</button>
     <p id="output"></p>
